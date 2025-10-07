@@ -1,5 +1,0 @@
-# src/main/resources/application.yml
-spring:
-  profiles:
-    active: dev
-
