@@ -2,9 +2,8 @@ package com.beanspot.backend.service;
 
 import com.beanspot.backend.common.exception.CustomException;
 import com.beanspot.backend.common.exception.ErrorCode;
-import com.beanspot.backend.domain.SocialType;
-import com.beanspot.backend.domain.User;
 import com.beanspot.backend.dto.auth.SignUpUserDTO;
+import com.beanspot.backend.entity.User;
 import com.beanspot.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +41,7 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(userDTO.getPassword()))
                 .nickname(userDTO.getNickname())
                 .name(userDTO.getName())
-                .socialType(SocialType.NONE)
+                .socialType(com.beanspot.backend.entity.SocialType.NONE)
                 .build();
 
         userRepository.save(user);

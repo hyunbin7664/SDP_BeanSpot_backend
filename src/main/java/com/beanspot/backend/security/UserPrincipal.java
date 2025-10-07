@@ -1,6 +1,6 @@
 package com.beanspot.backend.security;
 
-import com.beanspot.backend.domain.User;
+import com.beanspot.backend.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

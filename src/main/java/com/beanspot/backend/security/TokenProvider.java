@@ -1,6 +1,6 @@
 package com.beanspot.backend.security;
 
-import com.beanspot.backend.domain.User;
+import com.beanspot.backend.entity.User;
 import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;

@@ -2,7 +2,7 @@ package com.beanspot.backend.security;
 
 import com.beanspot.backend.common.exception.CustomException;
 import com.beanspot.backend.common.exception.ErrorCode;
-import com.beanspot.backend.domain.User;
+import com.beanspot.backend.entity.User;
 import com.beanspot.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
