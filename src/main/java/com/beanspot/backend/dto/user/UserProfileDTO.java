@@ -1,6 +1,7 @@
 package com.beanspot.backend.dto.user;
 
-import com.beanspot.backend.domain.SocialType;
+
+import com.beanspot.backend.entity.SocialType;
 import lombok.Builder;
 import lombok.Getter;
 

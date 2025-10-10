@@ -26,7 +26,7 @@ public class TokenProvider {
     @Value("${jwt.refresh-token-validity-in-seconds}")
     private long refreshTokenValidityInSeconds;
 
-    @Value("${jwt.allowed-clock-skew-seconds:60}")
+    @Value("${jwt.allowed-clock-skew-seconds}")
     private long allowedClockSkewSeconds;
 
     private JwtParser parser;
