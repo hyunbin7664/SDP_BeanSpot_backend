@@ -16,12 +16,14 @@ public enum ErrorCode {
     AUTH_TOKEN_EXPIRED(21004, HttpStatus.UNAUTHORIZED, "인증 토큰이 만료되었습니다."),
     AUTH_TOKEN_INVALID(21005, HttpStatus.UNAUTHORIZED, "유효하지 않은 인증 토큰입니다."),
     AUTH_ACCESS_DENIED(21006, HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),
-    AUTH_USERID_ALREADY_EXISTS(21101, HttpStatus.CONFLICT, "이미 사용 중인 사용자 아이디입니다."),
+    AUTH_SOCIAL_ID_NOT_FOUND(21007, HttpStatus.UNAUTHORIZED, "해당 소셜아이디로 가입된 정보가 없습니다.."),
 
+    AUTH_USERID_ALREADY_EXISTS(21101, HttpStatus.CONFLICT, "이미 사용 중인 사용자 아이디입니다."),
     AUTH_EMAIL_ALREADY_EXISTS(21102, HttpStatus.CONFLICT, "이미 사용 중인 이메일입니다."),
     AUTH_NICKNAME_ALREADY_EXISTS(21103, HttpStatus.CONFLICT, "이미 사용 중인 닉네임입니다."),
-    AUTH_PASSWORD_WEAK(21103, HttpStatus.BAD_REQUEST, "비밀번호가 보안 규칙에 맞지 않습니다."),
-    AUTH_PASSWORD_MISMATCH(21104, HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
+    AUTH_PASSWORD_WEAK(21104, HttpStatus.BAD_REQUEST, "비밀번호가 보안 규칙에 맞지 않습니다."),
+    AUTH_PASSWORD_MISMATCH(21105, HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
+    AUTH_SOCIAL_ID_ALREADY_EXISTS(21106, HttpStatus.CONFLICT, "이미 사용 중인 소셜 아이디입니다."),
 
     AUTH_EMAIL_NOT_VERIFIED(21201, HttpStatus.FORBIDDEN, "이메일 인증이 완료되지 않았습니다."),
     AUTH_VERIFICATION_CODE_INVALID(21202, HttpStatus.BAD_REQUEST, "인증 코드가 유효하지 않습니다."),
