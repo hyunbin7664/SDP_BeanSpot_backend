@@ -20,8 +20,8 @@ public class CustomUserDetailService implements UserDetailsService {
 
     // username => email 로그인
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+        User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.AUTH_EMAIL_NOT_FOUND));
         return UserPrincipal.from(user);
     }

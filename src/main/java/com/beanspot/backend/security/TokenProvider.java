@@ -48,7 +48,7 @@ public class TokenProvider {
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate) // exp
                 .setSubject(user.getId().toString())
-                .claim("email", user.getEmail())
+                .claim("userId", user.getUserId())
                 .claim("name", user.getNickname())
                 .claim("type", "access")
                 .compact();

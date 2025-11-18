@@ -13,9 +13,8 @@ public class SignUpUserDTO {
 
     @Getter
     public static class Req {
-        @Email
-        @NotBlank(message = "이메일 입력은 필수입니다.")
-        private String email;
+        @NotBlank(message = "아이디 입력은 필수입니다.")
+        private String userId;
 
         @NotBlank(message = "비밀번호 입력은 필수입니다.")
         private String password;
@@ -34,7 +33,7 @@ public class SignUpUserDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Res {
-        private String email;
+        private String userId;
         private String nickname;
         private boolean emailVerified;
     }

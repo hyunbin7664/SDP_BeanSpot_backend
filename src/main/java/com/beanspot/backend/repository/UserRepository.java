@@ -8,8 +8,8 @@ import java.util.Optional;
 
 @RequestMapping
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
+    Optional<User> findByUserId(String userId);
     Boolean existsByNickname(String nickname);
-    Boolean existsByEmail(String email);
-    User findByEmailAndPassword(String email, String password);
+    Boolean existsByUserId(String userId);
+    User findByUserIdAndPassword(String userId, String password);
 }

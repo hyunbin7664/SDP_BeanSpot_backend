@@ -21,7 +21,7 @@ public class UserPrincipal implements UserDetails {
                         .name(user.getName())
                         .password(user.getPassword())
                         .nickname(user.getNickname())
-                        .email(user.getEmail())
+                        .userId(user.getUserId())
                         .phone(user.getPhone())
                         .build()
         );
@@ -55,7 +55,5 @@ public class UserPrincipal implements UserDetails {
         return user.getNickname();
     }
 
-    public String getEmail(){
-        return user.getEmail();
-    }
+    public String getUserId(){ return user.getUserId(); }
 }

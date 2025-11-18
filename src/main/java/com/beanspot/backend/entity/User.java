@@ -14,7 +14,8 @@ public class User extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String email; // 사용자 이메일
+    @Column(name = "user_id")
+    private String userId; // 사용자 아이디
 
     @Column(name = "password", length = 100)
     private String password; // 비밀번호
@@ -28,6 +29,10 @@ public class User extends BaseEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "social_type")
     private SocialType socialType; // 카카오, 네이버 등
+
+    @Column(name = "social_id", unique = true)
+    private String socialId;
+
 
     @Column(name = "profile_url")
     private String profileUrl; // 프로필 이미지 경로

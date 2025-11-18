@@ -12,7 +12,7 @@ public class LoginUserDTO {
     public static class Req {
         @NotBlank
         @Email
-        private String email;
+        private String userId;
         @NotBlank
         private String password;
     }
@@ -24,7 +24,7 @@ public class LoginUserDTO {
     public static class Res {
         private String accessToken;
         private String refreshToken;
-        private Long userId;
+        private Long id;
         private String nickname;
     }
 }

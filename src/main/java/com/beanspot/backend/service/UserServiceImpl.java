@@ -23,11 +23,11 @@ public class UserServiceImpl implements UserService {
 
     public SignUpUserDTO.Res createUser(final SignUpUserDTO.Req userDTO) {
 
-        final String email = userDTO.getEmail();
+        final String userId = userDTO.getUserId();
         final String nickname = userDTO.getNickname();
 
-        if(userRepository.existsByEmail(email)){
-            log.warn("User with email {} already exists", email);
+        if(userRepository.existsByUserId(userId)){
+            log.warn("User with userId {} already exists", userId);
             throw new CustomException(ErrorCode.AUTH_USERID_ALREADY_EXISTS);
         }
 
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = User.builder()
-                .email(userDTO.getEmail())
+                .userId(userDTO.getUserId())
                 .password(passwordEncoder.encode(userDTO.getPassword()))
                 .nickname(userDTO.getNickname())
                 .name(userDTO.getName())
@@ -47,14 +47,14 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return  SignUpUserDTO.Res.builder()
-                .email(user.getEmail())
+                .userId(userDTO.getUserId())
                 .nickname(user.getNickname())
                 .build();
 
     }
 
-    public User getByCredential(final String email, final String password, PasswordEncoder encoder) {
-        User user = userRepository.findByEmail(email)
+    public User getByCredential(final String userId, final String password, PasswordEncoder encoder) {
+        User user = userRepository.findByUserId(userId)
                 .orElseThrow(()-> new CustomException(ErrorCode.AUTH_EMAIL_NOT_FOUND));
         if(!encoder.matches(password, user.getPassword())){
             throw new CustomException(ErrorCode.AUTH_PASSWORD_MISMATCH);

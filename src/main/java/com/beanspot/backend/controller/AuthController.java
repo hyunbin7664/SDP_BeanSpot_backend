@@ -46,7 +46,7 @@ public class AuthController {
     public ApiResponse<?>  login(@RequestBody LoginUserDTO.Req userDTO) {
 
         User user = userService.getByCredential(
-                userDTO.getEmail(),
+                userDTO.getUserId(),
                 userDTO.getPassword(),
                 passwordEncoder
         );
@@ -62,7 +62,7 @@ public class AuthController {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .nickname(user.getNickname())
-                .userId(user.getId())
+                .id(user.getId())
                 .build();
 
         return ApiResponse.ok(reponseUserDTO);
