@@ -31,5 +31,9 @@ public class CustomUserDetailService implements UserDetailsService {
                 .orElseThrow(()-> new CustomException(ErrorCode.AUTH_INVALID_CREDENTIALS));
         return UserPrincipal.from(user);
     }
+    public UserDetails loadUserBySocicalId(String socicalId) {
+        User user = User.builder().socialId(socicalId).build();
 
+        return UserPrincipal.from(user);
+    }
 }

@@ -54,6 +54,21 @@ public class TokenProvider {
                 .compact();
     }
 
+    public String createTemporaryAccessToken(String socialType, String socialId) {
+        Date expiryDate = Date.from(Instant.now().plusSeconds(validityInSeconds));
+        return Jwts.builder()
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .setIssuer(issuer)
+                .setIssuedAt(new Date())
+                .setExpiration(expiryDate)
+                .setSubject("temporary")
+                .claim("socialId", socialId)
+                .claim("socialType", socialType)
+                .claim("isProfileComplete", false)
+                .claim("type", "temporary")
+                .compact();
+    }
+
     public String createRefreshToken(User user) {
         Date expiryDate = Date.from(Instant.now().plusSeconds(validityInSeconds));
         return Jwts.builder()
@@ -78,10 +93,14 @@ public class TokenProvider {
         return t != null ? t.toString() : null;
     }
 
-    public String getEmailIfPresent(String token) {
+    public String getSocialIdFromToken(String token) {
         Claims claims = getAllClaims(token);
-        Object v = claims.get("email");
-        return v != null ? v.toString() : null;
+        return claims.get("socialId", String.class);
+    }
+
+    public String getSocialTypeFromToken(String token) {
+        Claims claims = getAllClaims(token);
+        return claims.get("socialType", String.class);
     }
 
     private Claims getAllClaims(String token) {

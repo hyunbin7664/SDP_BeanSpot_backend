@@ -3,15 +3,25 @@ package com.beanspot.backend.security;
 import com.beanspot.backend.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
-public class UserPrincipal implements UserDetails {
+public class UserPrincipal implements UserDetails, OAuth2User {
     private final User user;
+    private Map<String, Object> attributes; // OAuth 제공자로 부터 받은 회원 정보
+    private boolean oauth = false;
 
     public UserPrincipal(User user) {
         this.user = user;
+    }
+
+    public UserPrincipal(User user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
+        this.oauth = true;
     }
 
     public static UserPrincipal create(User user) {
@@ -23,12 +33,18 @@ public class UserPrincipal implements UserDetails {
                         .nickname(user.getNickname())
                         .userId(user.getUserId())
                         .phone(user.getPhone())
+                        .socialId(user.getSocialId())
                         .build()
         );
     }
 
     public static UserPrincipal from(User user) {
         return new UserPrincipal(user);
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 
 
@@ -56,4 +72,9 @@ public class UserPrincipal implements UserDetails {
     }
 
     public String getUserId(){ return user.getUserId(); }
+
+    public String getSocialId(){ return user.getSocialId(); }
+
+    public String getName(){ return user.getName(); }
 }
+
