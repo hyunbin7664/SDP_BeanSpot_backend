@@ -42,6 +42,13 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
+
+    //oauth
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    //solapi
+    implementation 'com.solapi:sdk:1.0.3'
+
+
 }
 
 tasks.named('test') {

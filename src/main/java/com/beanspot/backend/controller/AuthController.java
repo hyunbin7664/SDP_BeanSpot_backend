@@ -1,20 +1,26 @@
 package com.beanspot.backend.controller;
 
+import com.beanspot.backend.common.exception.CustomException;
+import com.beanspot.backend.common.exception.ErrorCode;
 import com.beanspot.backend.common.response.ApiResponse;
 import com.beanspot.backend.dto.auth.LoginUserDTO;
+import com.beanspot.backend.dto.auth.SignUpSocialUserDTO;
 import com.beanspot.backend.dto.auth.SignUpUserDTO;
-import com.beanspot.backend.entity.User;
-import com.beanspot.backend.security.TokenProvider;
+import com.beanspot.backend.security.CurrentUserSocialId;
+import com.beanspot.backend.service.KakaoLoginService;
 import com.beanspot.backend.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import java.io.IOException;
 
 @Slf4j
 @Tag(name="인증 API", description = "회원가입 및 로그인 관련 API입니다.")
@@ -24,11 +30,13 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
-
-
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Autowired
-    private TokenProvider tokenProvider;
+    private KakaoLoginService kakaoLoginService;
+
+    @Value("${oauth.kakao.redirect-url}")
+    private String redirectUrl;
+
 
     @PostMapping("/signup")
     public ApiResponse<?> signup(@RequestBody SignUpUserDTO.Req userDTO) {
@@ -45,27 +53,34 @@ public class AuthController {
     @PostMapping("/login")
     public ApiResponse<?>  login(@RequestBody LoginUserDTO.Req userDTO) {
 
-        User user = userService.getByCredential(
-                userDTO.getUserId(),
-                userDTO.getPassword(),
+        LoginUserDTO.Res reponseUserDTO = userService.login(
+                userDTO,
                 passwordEncoder
         );
 
-        // TODO 이메일 인증 체크
-
-        final String accessToken = tokenProvider.createAccessToken(user);
-        final String refreshToken = tokenProvider.createRefreshToken(user);
-
-
-
-        final LoginUserDTO.Res reponseUserDTO = LoginUserDTO.Res.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .nickname(user.getNickname())
-                .id(user.getId())
-                .build();
-
         return ApiResponse.ok(reponseUserDTO);
+
+    }
+
+    @PostMapping("/oauth/kakao/signup")
+    public ApiResponse<?> kakaoSignup(@CurrentUserSocialId String socialId, @RequestBody SignUpSocialUserDTO.Req userDTO) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(socialId == null) return ApiResponse.fail(new CustomException(ErrorCode.AUTH_VERIFICATION_CODE_EXPIRED));
+        log.info("socialId: {}", socialId);
+        SignUpSocialUserDTO.Res responseUserDTO = userService.createSocialUser(socialId, userDTO);
+        return ApiResponse.ok(responseUserDTO);
+
+    }
+
+    @GetMapping("/oauth/kakao/login")
+    public ApiResponse<?>  kakaoLogin(@RequestParam String code, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String socialId = kakaoLoginService.kakaoLogin(code,redirectUrl).getId();
+        LoginUserDTO.Res responseUserDTO = userService.loginBySocialId("kakao", socialId);
+
+        log.info("accessToken: {}", responseUserDTO.getAccessToken());
+
+        return ApiResponse.ok(responseUserDTO);
 
     }
 

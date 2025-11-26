@@ -8,12 +8,13 @@ import lombok.Getter;
 @Builder
 @Getter
 public class UserProfileDTO {
-    private Long userId;
+    private Long id;
+    private String userId;
     private String nickname;
     private String name;
-    private String email;
     private String phone;
     private String profileUrl;
     private String address;
+    private String socialId;
     private SocialType socialType;
 }

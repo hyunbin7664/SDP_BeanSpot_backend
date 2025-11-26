@@ -1,20 +1,19 @@
 package com.beanspot.backend.dto.auth;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class LoginUserDTO {
+public class SignUpSocialUserDTO {
+
     @Getter
     public static class Req {
-        @NotBlank
-        @Email
-        private String userId;
-        @NotBlank
-        private String password;
+        @NotBlank(message = "닉네임 작성은 필수입니다.")
+        private String nickname;
+        private String userName;
+        private String phone;
     }
 
     @Builder
@@ -22,10 +21,7 @@ public class LoginUserDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Res {
-        private String accessToken;
-        private String refreshToken;
-        private Long id;
+        private String socialId;
         private String nickname;
-        private Boolean isProfileComplete;
     }
 }
