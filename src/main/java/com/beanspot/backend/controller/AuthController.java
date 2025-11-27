@@ -3,6 +3,7 @@ package com.beanspot.backend.controller;
 import com.beanspot.backend.common.exception.CustomException;
 import com.beanspot.backend.common.exception.ErrorCode;
 import com.beanspot.backend.common.response.ApiResponse;
+import com.beanspot.backend.dto.auth.CheckNicknameResponseDTO;
 import com.beanspot.backend.dto.auth.LoginUserDTO;
 import com.beanspot.backend.dto.auth.SignUpSocialUserDTO;
 import com.beanspot.backend.dto.auth.SignUpUserDTO;
@@ -82,6 +83,20 @@ public class AuthController {
 
         return ApiResponse.ok(responseUserDTO);
 
+    }
+
+    @GetMapping("/check-nickname")
+    public ApiResponse<?> checkNickname(@RequestParam String nickname) {
+        boolean isAvailable = userService.isNicknameAvailable(nickname);
+        String message = isAvailable ?
+                "사용 가능한 닉네임입니다." :
+                "이미 사용 중인 닉네임입니다.";
+        CheckNicknameResponseDTO responseDTO = CheckNicknameResponseDTO.builder()
+                                                    .available(isAvailable)
+                                                    .nickname(nickname)
+                                                    .message(message)
+                                                    .build();
+        return ApiResponse.ok(responseDTO);
     }
 
 }
