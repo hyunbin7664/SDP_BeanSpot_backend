@@ -84,6 +84,7 @@ public class UserServiceImpl implements UserService {
                 .accessToken(accessToken)
                 .nickname(user.getNickname())
                 .id(user.getId())
+                .role(user.getRole().name())
                 .build();
         return reponseUserDTO;
     }
@@ -115,6 +116,7 @@ public class UserServiceImpl implements UserService {
                     .accessToken(accessToken)
                     .nickname(user.get().getNickname())
                     .id(user.get().getId())
+                    .role(user.get().getRole().name())
                     .isProfileComplete(true)
                     .build();
         }else{

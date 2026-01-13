@@ -28,6 +28,7 @@ public class WebSecurityConfig {
                 .cors(Customizer.withDefaults())
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/",
                                 "/api/auth/**",
                                 "/swagger-ui/**",
