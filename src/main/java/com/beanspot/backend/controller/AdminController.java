@@ -48,8 +48,9 @@ public class AdminController {
             @CurrentUserId Long adminId,
             @RequestBody AnnouncementRequestDto dto) {
 
-        Long announcementId = announcementService.createAnnouncement(adminId, dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(announcementId);
+        // 순서 주의: 서비스 정의에 따라 (dto, adminId)로 호출
+        Long announcementId = announcementService.createAnnouncement(dto, adminId);
+        return ResponseEntity.ok(announcementId);
     }
 
     /**
