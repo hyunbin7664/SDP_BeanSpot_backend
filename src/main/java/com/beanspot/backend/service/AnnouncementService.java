@@ -1,13 +1,12 @@
 package com.beanspot.backend.service;
 
 import com.beanspot.backend.common.response.PageResponse;
-import com.beanspot.backend.dto.announcement.AnnouncementDetailDTO;
+import com.beanspot.backend.dto.announcement.AnnouncementDTO;
 import com.beanspot.backend.dto.announcement.AnnouncementSummaryDTO;
 
-import java.util.List;
 
 public interface AnnouncementService {
-    public PageResponse<AnnouncementSummaryDTO> getAnnouncements(
+    PageResponse<AnnouncementSummaryDTO> getAnnouncements(
             String keyword,
             String type,
             String category,
@@ -18,5 +17,13 @@ public interface AnnouncementService {
             Integer limit
     );
 
-    public AnnouncementDetailDTO getAnnouncementDetail(Long id);
+    AnnouncementDTO.Detail getAnnouncementDetail(Long id);
+
+    void increaseViewCount(Long id);
+
+    void addAnnouncement(AnnouncementDTO.Create announcement);
+
+    void updateAnnouncement(Long id, AnnouncementDTO.Update announcement);
+
+    void deleteAnnouncement(Long id);
 }

@@ -2,7 +2,7 @@ package com.beanspot.backend.controller;
 
 import com.beanspot.backend.common.response.ApiResponse;
 import com.beanspot.backend.common.response.PageResponse;
-import com.beanspot.backend.dto.announcement.AnnouncementDetailDTO;
+import com.beanspot.backend.dto.announcement.AnnouncementDTO;
 import com.beanspot.backend.dto.announcement.AnnouncementSummaryDTO;
 import com.beanspot.backend.service.AnnouncementService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,7 +37,8 @@ public class AnnouncementController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<AnnouncementDetailDTO> getAnnouncement(@PathVariable Long id) {
+    public ApiResponse<AnnouncementDTO.Detail> getAnnouncementDetail(@PathVariable Long id) {
+        announcementService.increaseViewCount(id);
         return ApiResponse.ok(announcementService.getAnnouncementDetail(id));
     }
 }
