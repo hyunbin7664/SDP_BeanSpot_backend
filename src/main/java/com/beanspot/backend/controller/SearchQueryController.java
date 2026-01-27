@@ -30,4 +30,10 @@ public class SearchQueryController {
         recentSearchService.deleteRecentSearch(userId, keyword);
         return ApiResponse.ok("키워드 삭제가 처리되었습니다.");
     }
+
+    @DeleteMapping("/recent/all")
+    public ApiResponse<?> deleteRecentAll(@CurrentUserId Long userId) {
+        recentSearchService.deleteAllRecentSearch(userId);
+        return ApiResponse.ok("최근 검색어가 모두 삭제되었습니다.");
+    }
 }

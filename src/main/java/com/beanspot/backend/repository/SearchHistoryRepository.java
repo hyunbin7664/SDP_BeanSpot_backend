@@ -13,6 +13,8 @@ public interface SearchHistoryRepository extends JpaRepository<SearchHistory, Lo
 
     List<SearchHistory> findTop5ByUserIdOrderByUpdatedAtDesc(Long userId);
 
+    void deleteByUserId(Long userId);
+
     @Query(value = """
     DELETE FROM search_history
     WHERE user_id = :user_id

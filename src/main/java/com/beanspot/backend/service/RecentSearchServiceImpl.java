@@ -42,4 +42,9 @@ public class RecentSearchServiceImpl implements RecentSearchService {
         repository.findByUserIdAndKeyword(userId, keyword)
                 .ifPresent(repository::delete);
     }
+
+    @Override
+    public void deleteAllRecentSearch(Long userId) {
+        repository.deleteByUserId(userId);
+    }
 }
