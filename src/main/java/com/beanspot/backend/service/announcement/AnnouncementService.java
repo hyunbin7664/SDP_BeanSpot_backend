@@ -1,21 +1,13 @@
-package com.beanspot.backend.service;
+package com.beanspot.backend.service.announcement;
 
 import com.beanspot.backend.common.response.PageResponse;
 import com.beanspot.backend.dto.announcement.AnnouncementDTO;
+import com.beanspot.backend.dto.announcement.AnnouncementSearchConditionDTO;
 import com.beanspot.backend.dto.announcement.AnnouncementSummaryDTO;
 
 
 public interface AnnouncementService {
-    PageResponse<AnnouncementSummaryDTO> getAnnouncements(
-            String keyword,
-            String type,
-            String category,
-            String region,
-            String sort,
-            int page,
-            int size,
-            Integer limit
-    );
+    PageResponse<AnnouncementSummaryDTO> getAnnouncements(AnnouncementSearchConditionDTO condition);
 
     AnnouncementDTO.Detail getAnnouncementDetail(Long id);
 

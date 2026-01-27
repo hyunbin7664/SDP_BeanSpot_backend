@@ -1,27 +1,26 @@
-package com.beanspot.backend.repository;
+package com.beanspot.backend.repository.announcement;
 
 import com.beanspot.backend.entity.announcement.Announcement;
+import com.beanspot.backend.entity.announcement.AnnouncementType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface AnnouncementCustomRepository {
-
-    Page<Announcement> searchWithFilters(
+public interface AnnouncementRdbSearchRepository {
+    Page<Announcement> search(
             String keyword,
-            String type,
+            AnnouncementType type,
             String region,
             String sort,
             Pageable pageable
     );
 
-    List<Announcement> findTopByFilters(
+    List<Announcement> findTop(
             String keyword,
-            String type,
+            AnnouncementType type,
             String region,
             String sort,
             int limit
     );
-
 }

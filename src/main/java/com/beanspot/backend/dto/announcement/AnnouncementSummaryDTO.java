@@ -1,6 +1,8 @@
 package com.beanspot.backend.dto.announcement;
 
+import com.beanspot.backend.entity.AnnouncementDocument;
 import com.beanspot.backend.entity.announcement.Announcement;
+import com.beanspot.backend.entity.announcement.AnnouncementType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,24 +13,32 @@ import java.time.LocalDate;
 public class AnnouncementSummaryDTO {
     private Long id;
     private String title;
-    private String organizer;
     private String region;
-    private String type;
+    private AnnouncementType type;
     private LocalDate startDate;
     private LocalDate endDate;
     private String thumbnailUrl;
-    private int viewCount;
 
     public static AnnouncementSummaryDTO from(Announcement announcement) {
         return AnnouncementSummaryDTO.builder()
                 .id(announcement.getId())
                 .title(announcement.getTitle())
-                .organizer(announcement.getOrganizer())
-                .region(announcement.getLocation())
+                .region(announcement.getRegion())
                 .type(announcement.getType())
                 .startDate(announcement.getStartDate())
                 .endDate(announcement.getEndDate())
-                .viewCount(announcement.getViewCount())
+                .build();
+    }
+
+    public static AnnouncementSummaryDTO from(AnnouncementDocument doc) {
+        return AnnouncementSummaryDTO.builder()
+                .id(doc.getId())
+                .title(doc.getTitle())
+                .region(doc.getRegion())
+                .type(AnnouncementType.valueOf(doc.getType()))
+                .startDate(doc.getStartDate())
+                .endDate(doc.getEndDate())
+                .thumbnailUrl(doc.getThumbnailUrl())
                 .build();
     }
 }

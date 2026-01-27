@@ -1,11 +1,13 @@
-package com.beanspot.backend.repository;
+package com.beanspot.backend.repository.announcement;
 
 import com.beanspot.backend.entity.announcement.Announcement;
+import com.beanspot.backend.entity.announcement.AnnouncementType;
 import com.beanspot.backend.entity.announcement.QAnnouncement;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -15,21 +17,27 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class AnnouncementCustomRepositoryImpl extends QuerydslRepositorySupport implements AnnouncementCustomRepository {
+public class AnnouncementRdbSearchRepositoryImpl implements AnnouncementRdbSearchRepository {
 
     private final JPAQueryFactory queryFactory;
 
     QAnnouncement a = QAnnouncement.announcement;
 
-    public AnnouncementCustomRepositoryImpl(EntityManager entityManager) {
-        super(Announcement.class);
+    public AnnouncementRdbSearchRepositoryImpl(EntityManager entityManager) {
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
 
 
     @Override
-    public Page<Announcement> searchWithFilters(String keyword, String type, String region, String sort, Pageable pageable) {
-        List<Announcement> content = queryFactory.selectFrom(a)
+    public Page<Announcement> search(
+            String keyword,
+            AnnouncementType type,
+            String region,
+            String sort,
+            Pageable pageable
+    ) {
+        List<Announcement> content = queryFactory
+                .selectFrom(a)
                 .where(
                         containsKeyword(keyword),
                         eqType(type),
@@ -47,19 +55,28 @@ public class AnnouncementCustomRepositoryImpl extends QuerydslRepositorySupport 
                         containsKeyword(keyword),
                         eqType(type),
                         eqRegion(region)
-                ).fetchOne();
+                )
+                .fetchOne();
+
         return new PageImpl<>(content, pageable, total == null ? 0 : total);
     }
 
     @Override
-    public List<Announcement> findTopByFilters(String keyword, String type, String region, String sort, int limit) {
+    public List<Announcement> findTop(
+            String keyword,
+            AnnouncementType type,
+            String region,
+            String sort,
+            int limit
+    ) {
         return queryFactory
                 .selectFrom(a)
                 .where(
                         containsKeyword(keyword),
                         eqType(type),
                         eqRegion(region)
-                ).orderBy(sortCondition(sort))
+                )
+                .orderBy(sortCondition(sort))
                 .limit(limit)
                 .fetch();
     }
@@ -70,12 +87,12 @@ public class AnnouncementCustomRepositoryImpl extends QuerydslRepositorySupport 
                 .or(a.content.containsIgnoreCase(keyword));
     }
 
-    private BooleanExpression eqType(String type) {
-        return (type == null || type.isEmpty()) ? null : (a.type.eq(type));
+    private BooleanExpression eqType(AnnouncementType type) {
+        return type == null ? null : a.type.eq(type);
     }
 
     private BooleanExpression eqRegion(String region) {
-        return (region == null || region.isEmpty()) ?  null : a.location.eq(region);
+        return (region == null || region.isEmpty()) ?  null : a.region.eq(region);
     }
 
     private OrderSpecifier<?> sortCondition(String sort) {
