@@ -1,6 +1,5 @@
-package com.beanspot.backend.entity;
+package com.beanspot.backend.entity.announcement;
 
-import com.beanspot.backend.entity.announcement.Announcement;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

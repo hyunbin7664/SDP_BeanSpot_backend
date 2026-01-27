@@ -1,6 +1,6 @@
 package com.beanspot.backend.dto.announcement;
 
-import com.beanspot.backend.entity.AnnouncementDocument;
+import com.beanspot.backend.entity.announcement.AnnouncementDocument;
 import com.beanspot.backend.entity.announcement.Announcement;
 import com.beanspot.backend.entity.announcement.AnnouncementType;
 import lombok.Builder;

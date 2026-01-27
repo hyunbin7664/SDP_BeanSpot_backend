@@ -3,7 +3,7 @@ package com.beanspot.backend.service.announcement;
 import com.beanspot.backend.common.response.PageResponse;
 import com.beanspot.backend.dto.announcement.AnnouncementSearchConditionDTO;
 import com.beanspot.backend.dto.announcement.AnnouncementSummaryDTO;
-import com.beanspot.backend.entity.AnnouncementDocument;
+import com.beanspot.backend.entity.announcement.AnnouncementDocument;
 import com.beanspot.backend.entity.announcement.Announcement;
 import com.beanspot.backend.repository.announcement.AnnouncementRdbSearchRepository;
 import com.beanspot.backend.repository.es.AnnouncementSearchRepository;

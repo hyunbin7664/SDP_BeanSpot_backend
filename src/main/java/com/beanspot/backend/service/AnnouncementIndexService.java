@@ -1,6 +1,6 @@
 package com.beanspot.backend.service;
 
-import com.beanspot.backend.entity.AnnouncementDocument;
+import com.beanspot.backend.entity.announcement.AnnouncementDocument;
 import com.beanspot.backend.entity.announcement.Announcement;
 import com.beanspot.backend.repository.announcement.AnnouncementRepository;
 import com.beanspot.backend.repository.es.AnnouncementSearchRepository;

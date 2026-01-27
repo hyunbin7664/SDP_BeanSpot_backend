@@ -1,6 +1,6 @@
 package com.beanspot.backend.repository.es;
 
-import com.beanspot.backend.entity.AnnouncementDocument;
+import com.beanspot.backend.entity.announcement.AnnouncementDocument;
 import com.beanspot.backend.entity.announcement.AnnouncementType;
 import com.beanspot.backend.entity.search.SortType;
 import org.springframework.data.domain.Page;
