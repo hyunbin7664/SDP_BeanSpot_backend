@@ -1,0 +1,44 @@
+{
+"properties": {
+  "id": {
+    "type": "long"
+  },
+  "title": {
+    "type": "text"
+  },
+  "content": {
+    "type": "text"
+  },
+  "type": {
+    "type": "keyword"
+  },
+  "region": {
+    "type": "keyword"
+  },
+  "recruitmentStart": {
+    "type": "date"
+  },
+  "recruitmentEnd": {
+    "type": "date"
+  },
+  "startDate": {
+    "type": "date"
+  },
+  "endDate": {
+    "type": "date"
+  },
+  "thumbnailUrl": {
+    "type": "keyword"
+  },
+  "viewCount": {
+    "type": "long"
+  },
+  "createdAt": {
+    "type": "date",
+    "format": "strict_date_optional_time"
+  },
+  "geoLocation": {
+    "type": "geo_point"
+  }
+}
+}
