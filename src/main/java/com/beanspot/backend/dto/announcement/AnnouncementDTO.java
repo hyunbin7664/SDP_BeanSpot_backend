@@ -1,6 +1,7 @@
 package com.beanspot.backend.dto.announcement;
 
 import com.beanspot.backend.entity.announcement.Announcement;
+import com.beanspot.backend.entity.announcement.AnnouncementType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
@@ -19,7 +20,7 @@ public class AnnouncementDTO {
         private String title;
         private String content;
         private String organizer;
-        private String type;
+        private AnnouncementType type;
         private String imgUrl;
         private String location;
 
@@ -29,11 +30,6 @@ public class AnnouncementDTO {
         @JsonFormat(pattern = "yyyy-MM-dd")
         private LocalDate endDate;
 
-        // 유형별 상세 정보
-        private VolunteerDTO.Detail volunteer;
-        private SupporterDTO.Detail supporter;
-        private EducationDTO.Detail education;
-        private ChallengeDTO.Detail challenge;
 
         public static Detail from(Announcement announcement) {
             return Detail.builder()
@@ -57,7 +53,20 @@ public class AnnouncementDTO {
         @NotBlank
         private String content;
         @NotBlank
-        private String type; // CHALLENGE / EDUCATION / SUPPORTER / VOLUNTEER
+        private AnnouncementType type;
+
+        @NotBlank
+        private String organizer;
+
+        @NotBlank
+        private String imgUrl;
+
+        @NotBlank
+        private String region;
+
+        @NotBlank
+        private String location;
+
 
         @JsonFormat(pattern = "yyyy-MM-dd")
         private LocalDate startDate;
@@ -65,10 +74,30 @@ public class AnnouncementDTO {
         @JsonFormat(pattern = "yyyy-MM-dd")
         private LocalDate endDate;
 
-        private VolunteerDTO.Create volunteer;
-        private ChallengeDTO.Create challenge;
-        private EducationDTO.Create education;
-        private SupporterDTO.Create supporter;
+        @JsonFormat(pattern = "yyyy-MM-dd")
+        private LocalDate recruitmentStart;
+
+        @JsonFormat(pattern = "yyyy-MM-dd")
+        private LocalDate recruitmentEnd;
+
+        private Integer fee;
+
+        //유형별 (선택)
+
+        // VOLUNTEER
+        private String serviceHoursVerified;
+
+        // SUPPORTER
+        private String selectionProcess;
+
+        // CHALLENGE
+        private String teamSize;
+        private String awardScale;
+
+        // 기타
+
+        private String scheduleDetail;
+
     }
 
     @Getter
@@ -82,9 +111,5 @@ public class AnnouncementDTO {
         @JsonFormat(pattern = "yyyy-MM-dd")
         private LocalDate endDate;
 
-        private VolunteerDTO.Update volunteer;
-        private SupporterDTO.Update supporter;
-        private EducationDTO.Update education;
-        private ChallengeDTO.Update challenge;
     }
 }
