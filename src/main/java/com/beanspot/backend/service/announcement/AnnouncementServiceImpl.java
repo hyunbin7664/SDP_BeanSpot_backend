@@ -5,8 +5,10 @@ import com.beanspot.backend.dto.announcement.*;
 import com.beanspot.backend.entity.announcement.*;
 import com.beanspot.backend.listener.AnnouncementCreatedEvent;
 import com.beanspot.backend.repository.announcement.AnnouncementRepository;
+import com.beanspot.backend.service.KakaoGeoCodingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AnnouncementServiceImpl implements AnnouncementService {
 
     private final AnnouncementSearchService searchService;
+    private final KakaoGeoCodingService geoCodingService;
 
     private final AnnouncementRepository announcementRepository;
    private final ApplicationEventPublisher applicationEventPublisher;
@@ -57,7 +60,9 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         Double lng = null;
 
         try {
-
+            GeoPoint geo = geoCodingService.convert(reqDTO.getLocation());
+            lat = geo.getLat();
+            lng = geo.getLon();
         } catch (Exception e) {
             throw new IllegalArgumentException("위치 정보를 찾을 수 없습니다.");
         }
