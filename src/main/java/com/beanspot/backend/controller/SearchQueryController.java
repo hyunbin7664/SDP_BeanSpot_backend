@@ -2,7 +2,8 @@ package com.beanspot.backend.controller;
 
 import com.beanspot.backend.common.response.ApiResponse;
 import com.beanspot.backend.security.CurrentUserId;
-import com.beanspot.backend.service.RecentSearchService;
+import com.beanspot.backend.service.search.RecentSearchService;
+import com.beanspot.backend.service.search.SearchKeywordFacade;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,23 +18,33 @@ import java.util.List;
 @RequestMapping("/api/search")
 public class SearchQueryController {
 
-    private final RecentSearchService recentSearchService;
-//    private final AutoCompleteService autoCompleteService;
+
+    private final SearchKeywordFacade searchKeywordFacade;
 
     @GetMapping("/recent")
     public ApiResponse<List<String>> recent(@CurrentUserId Long userId) {
-        return ApiResponse.ok(recentSearchService.getRecentSearch(userId));
+        return ApiResponse.ok(searchKeywordFacade.getRecent(userId));
     }
 
     @DeleteMapping("/recent")
     public ApiResponse<?> deleteRecent(@CurrentUserId Long userId, @RequestParam String keyword) {
-        recentSearchService.deleteRecentSearch(userId, keyword);
+        searchKeywordFacade.deleteRecent(userId, keyword);
         return ApiResponse.ok("키워드 삭제가 처리되었습니다.");
     }
 
     @DeleteMapping("/recent/all")
     public ApiResponse<?> deleteRecentAll(@CurrentUserId Long userId) {
-        recentSearchService.deleteAllRecentSearch(userId);
+        searchKeywordFacade.deleteAllRecent(userId);
         return ApiResponse.ok("최근 검색어가 모두 삭제되었습니다.");
+    }
+
+    @GetMapping("/autocomplete")
+    public ApiResponse<List<String>> autocomplete( @RequestParam String query) {
+        return ApiResponse.ok(searchKeywordFacade.getAutoComplete(query));
+    }
+
+    @GetMapping("/recommend")
+    public ApiResponse<List<String>> recommend() {
+        return ApiResponse.ok(searchKeywordFacade.getRecommended(5));
     }
 }

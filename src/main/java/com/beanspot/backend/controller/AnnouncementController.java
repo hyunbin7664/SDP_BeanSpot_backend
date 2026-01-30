@@ -7,15 +7,19 @@ import com.beanspot.backend.dto.announcement.AnnouncementSummaryDTO;
 import com.beanspot.backend.dto.announcement.AnnouncementSearchConditionDTO;
 import com.beanspot.backend.entity.announcement.AnnouncementType;
 import com.beanspot.backend.entity.search.SortType;
+import com.beanspot.backend.listener.SearchExcutedEvent;
 import com.beanspot.backend.security.CurrentUserId;
-import com.beanspot.backend.service.RecentSearchService;
+import com.beanspot.backend.service.search.RecentSearchService;
 import com.beanspot.backend.service.announcement.AnnouncementService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.Normalizer;
 import java.time.YearMonth;
 import java.util.List;
 
@@ -28,6 +32,7 @@ public class AnnouncementController {
 
     private final AnnouncementService announcementService;
     private final RecentSearchService recentSearchService;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @GetMapping("")
     public PageResponse<AnnouncementSummaryDTO> getAnnouncements(
@@ -64,8 +69,12 @@ public class AnnouncementController {
                 .size(size)
                 .build();
         //최근 검색어 저장
-        if(userId != null && keyword != null && !keyword.isBlank()) {
+        String normalizedKeyword = keyword == null ? null : keyword.trim();
+        if(userId != null && StringUtils.hasText(normalizedKeyword)) {
             recentSearchService.saveRecentSearch(userId, keyword);
+            applicationEventPublisher.publishEvent(
+                    new SearchExcutedEvent(userId,keyword)
+            );
         }
 
         return announcementService.getAnnouncements(condition);
