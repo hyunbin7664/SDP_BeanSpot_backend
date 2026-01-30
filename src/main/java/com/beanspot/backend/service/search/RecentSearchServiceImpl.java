@@ -1,4 +1,4 @@
-package com.beanspot.backend.service;
+package com.beanspot.backend.service.search;
 
 import com.beanspot.backend.entity.search.SearchHistory;
 import com.beanspot.backend.repository.SearchHistoryRepository;
@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional

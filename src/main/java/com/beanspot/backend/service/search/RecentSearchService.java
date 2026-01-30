@@ -1,4 +1,4 @@
-package com.beanspot.backend.service;
+package com.beanspot.backend.service.search;
 
 import java.util.List;
 
