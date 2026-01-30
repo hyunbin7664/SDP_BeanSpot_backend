@@ -166,15 +166,25 @@ public class AnnouncementSearchRepositoryImpl implements AnnouncementSearchRepos
 
     @Override
     public List<String> autocomplete(String keyword, int limit) {
+
+        if (keyword == null || keyword.isBlank()) {
+            return List.of();
+        }
+
         NativeQuery query = NativeQuery.builder()
-                .withQuery(q -> q.matchPhrasePrefix(m -> m.field("title").query(keyword)))
-                .withPageable(PageRequest.of(0, limit)).build();
+                .withQuery(q -> q.match(m -> m
+                        .field("title.autocomplete")
+                        .query(keyword)
+                ))
+                .withPageable(PageRequest.of(0, limit))
+                .build();
 
         SearchHits<AnnouncementDocument> hits = operations.search(query, AnnouncementDocument.class);
 
         return hits.getSearchHits()
                 .stream()
                 .map(hit -> hit.getContent().getTitle())
-                .distinct().toList();
+                .distinct()
+                .toList();
     }
 }
