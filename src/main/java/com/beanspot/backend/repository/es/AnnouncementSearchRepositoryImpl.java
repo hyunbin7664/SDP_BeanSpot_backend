@@ -9,6 +9,7 @@ import com.beanspot.backend.entity.search.SortType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -161,5 +162,19 @@ public class AnnouncementSearchRepositoryImpl implements AnnouncementSearchRepos
                 .map(SearchHit::getContent)
                 .toList();
         return new PageImpl<>(content, pageable, hits.getTotalHits());
+    }
+
+    @Override
+    public List<String> autocomplete(String keyword, int limit) {
+        NativeQuery query = NativeQuery.builder()
+                .withQuery(q -> q.matchPhrasePrefix(m -> m.field("title").query(keyword)))
+                .withPageable(PageRequest.of(0, limit)).build();
+
+        SearchHits<AnnouncementDocument> hits = operations.search(query, AnnouncementDocument.class);
+
+        return hits.getSearchHits()
+                .stream()
+                .map(hit -> hit.getContent().getTitle())
+                .distinct().toList();
     }
 }
