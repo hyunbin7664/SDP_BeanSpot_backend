@@ -96,6 +96,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isUserIdAvailable(String userId) {
+        return !userRepository.existsByUserId(userId);
+    }
+
+    @Override
     public UserProfileDTO getUserProfileById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(()-> new CustomException(ErrorCode.AUTH_LOGIN_REQUIRED));
