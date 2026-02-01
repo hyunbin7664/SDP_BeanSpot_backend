@@ -33,7 +33,8 @@ public class WebSecurityConfig {
                                 "/api/auth/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
-                                "/webjars/**").permitAll()
+                                "/webjars/**",
+                                "/docs/**").permitAll()
                         .anyRequest().authenticated()
 
                 ).exceptionHandling(exception -> exception
